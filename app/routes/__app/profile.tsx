@@ -14,6 +14,7 @@ export default function Profile() {
   return (
     <div>
       <h1>{profile.mail}</h1>
+      <h1>wqdasd</h1>
     </div>
   )
 }

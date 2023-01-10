@@ -12,7 +12,6 @@ export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get('Cookie'))
 
   const res = await logout(request)
-  console.log('logout', res.status)
 
   if (res.status === 200)
     return redirect('/', {

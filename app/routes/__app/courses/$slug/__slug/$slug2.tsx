@@ -1,21 +1,22 @@
-import { LoaderArgs } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import { Link, useCatch, useLoaderData } from '@remix-run/react'
 import { getCourses } from '~/api/api'
 
 export const loader = async ({ params }: LoaderArgs) => {
-  const data = await getCourses(params.slug)
+  console.log('params', params)
+
+  const courses = await getCourses(params.slug2)
+
   return {
-    courses: data,
+    courses,
   }
 }
 
 export default function Courses() {
   const data = useLoaderData<typeof loader>()
-  console.log('data')
 
   return (
-    <div>
-      <h1>Courses</h1>
+    <div className='flex'>
       <div className='flex flex-wrap gap-4'>
         {data.courses.map(course => (
           <div key={course._id} className='flex flex-col rounded bg-primary-50'>
@@ -44,7 +45,7 @@ export function CatchBoundary() {
   const caught = useCatch()
 
   if (caught.status === 404) {
-    return <div>Note not found</div>
+    return <div>Note44 not found</div>
   }
 
   throw new Error(`Unexpected caught response with status: ${caught.status}`)

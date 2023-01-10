@@ -1,4 +1,4 @@
-import { LinksFunction, MetaFunction } from '@remix-run/node'
+import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -17,7 +17,10 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 })
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  // { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
+]
 export default function App() {
   return (
     <html lang='en'>

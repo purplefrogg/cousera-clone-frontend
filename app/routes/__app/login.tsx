@@ -7,7 +7,6 @@ import { commitSession, getSession } from '~/sessions'
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get('Cookie'))
 
-  console.log('already logged in', session.has('token'))
   if (session.has('token')) {
     // Redirect to the home page if they are already signed in.
     return redirect('/')
@@ -47,8 +46,6 @@ export async function action({ request }: ActionArgs) {
 export default function Login() {
   const { currentUser, error } = useLoaderData()
   const actionData = useActionData<typeof action>()
-
-  console.log(currentUser, error)
 
   return (
     <div className='p-4'>

@@ -53,14 +53,14 @@ export const Header = ({
         {showCategoriesMenu && (
           <div
             onClick={() => setShowCategoriesMenu(false)}
-            className='flex flex-col absolute  top-10 min-h-screen w-full'>
+            className='flex flex-col absolute  top-10 min-h-screen w-full bg-opacity-70 bg-grey-300'>
             <div
-              className='flex flex-wrap gap-2 bg-white'
+              className='flex flex-wrap gap-2 bg-white rounded-b-lg p-2'
               onClick={e => e.stopPropagation()}>
               {categories.map(category => (
                 <Link
-                  className={` bg-primary-200 rounded-lg p-1 hover:bg-primary-30 ${
-                    activeCategorySlug === category.slug ? 'bg-primary-900' : ''
+                  className={` bg-primary-200 rounded-lg px-3 py-1 hover:bg-primary-300 ${
+                    activeCategorySlug === category.slug ? 'bg-primary-400' : ''
                   }`}
                   key={category._id}
                   onClick={() => setShowCategoriesMenu(false)}

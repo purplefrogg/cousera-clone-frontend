@@ -1,11 +1,11 @@
 import type { LoaderArgs } from '@remix-run/node'
 import { Link, useCatch, useLoaderData } from '@remix-run/react'
-import { getCategories, getCourses } from '~/api/api'
+import { getCourses } from '~/api/api'
 
 export const loader = async ({ params }: LoaderArgs) => {
   console.log('param21s', params)
 
-  const courses = await getCourses()
+  const courses = await getCourses(params.slug)
 
   return {
     courses,
@@ -17,7 +17,6 @@ export default function Courses() {
 
   return (
     <div className='flex flex-wrap gap-4'>
-      qwd
       {data.courses.map(course => (
         <div key={course._id} className='flex flex-col rounded bg-primary-50'>
           <h2 className='text-xl'>{course.name}</h2>

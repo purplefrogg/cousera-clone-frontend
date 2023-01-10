@@ -16,9 +16,8 @@ export interface Category {
   childCategories: Category[]
   parentCategory?: Category
 }
-export const getCourses = async (slug?: string): Promise<Course[]> => {
-  console.log('getCourses', slug)
 
+export const getCourses = async (slug?: string): Promise<Course[]> => {
   const res = await fetch(`${baseUrl}/course/${slug || ''}`)
   if (res.status === 400) {
     throw new Response('Bad Request', { status: 404 })
@@ -27,6 +26,8 @@ export const getCourses = async (slug?: string): Promise<Course[]> => {
   return data
 }
 export const getCategories = async (): Promise<Category[]> => {
+  console.log('getCategories')
+
   const res = await fetch(`${baseUrl}/category`)
   return await res.json()
 }
@@ -52,12 +53,9 @@ const secureApi = async (
   api: (token?: string) => Promise<any>
 ) => {
   const res = await api()
-  console.log('secureApi', res.status)
   const session = await getSession(request.headers.get('Cookie'))
 
   if (res.status !== 401) {
-    console.log('not 401')
-
     return res
   }
 
@@ -66,8 +64,6 @@ const secureApi = async (
   })
 
   if (refresh.status === 401) {
-    console.log('refresh', refresh.status)
-
     return redirect('/login', {
       headers: {
         'Set-Cookie': await destroySession(session),
@@ -77,7 +73,6 @@ const secureApi = async (
   const data = await refresh.json()
 
   session.set('token', data.accessToken)
-  console.log('refresh12', refresh.status, data)
 
   return redirect(redirectTo, {
     headers: {
@@ -104,7 +99,6 @@ export const getProfile = async (request: Request): Promise<any> =>
 export const logout = async (request: Request): Promise<any> =>
   await secureApi(request, '/logout', async token => {
     const session = await getSession(request.headers.get('Cookie'))
-    console.log(token || session.get('token'))
 
     const res = await fetch(`${baseUrl}/auth/logout`, {
       headers: {

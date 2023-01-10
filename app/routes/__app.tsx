@@ -1,4 +1,5 @@
-import { LoaderArgs, json } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { Outlet, useCatch, useLoaderData, useMatches } from '@remix-run/react'
 import { getCategories } from '~/api/api'
 import { Header } from '~/components/header'
@@ -7,6 +8,7 @@ import { getSession } from '~/sessions'
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get('Cookie'))
   const categories = await getCategories()
+
   return json({
     categories,
     isAuth: !!session.get('token'),
@@ -23,7 +25,9 @@ export default function App() {
     <>
       <Header
         activeCategory={activeCategory?.params.slug}
-        categories={data.categories}
+        categories={data.categories.filter(
+          category => !category.parentCategory
+        )}
         isAuth={data.isAuth}
       />
       <Outlet />
